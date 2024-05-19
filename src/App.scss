@@ -1,0 +1,27 @@
+body {
+  &.rtl {
+    direction: rtl;
+
+    .MuiInputLabel-shrink {
+      transform: translate(25%, -1.5px) scale(0.75);
+    }
+  }
+}
+
+input {
+  unicode-bidi: plaintext;
+  text-align: start;
+}
+
+.cards {
+  padding: 10px;
+
+}
+
+svg#barcode {
+  width: 100%;
+}
+
+svg[id^="barcode"]{
+  width: 100%;
+}

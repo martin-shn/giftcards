@@ -1,23 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
+import './App.scss';
+import Header from './Header';
+import Cards from './Cards';
+import Expenses from './Expenses';
 
 function App() {
+  const [page, setPage] = useState('Cards');
+  const [lang, setLang] = useState('he');
+  const [giftcardsDB, setGiftcardsDB] = useState(JSON.parse(localStorage.getItem('giftcardsDB') || '[]'));
+  const [currCmp, setCurrCmp] = useState(<></>);
+
+
+  useEffect(() => {
+    switch (page) {
+      case 'Cards':
+        setCurrCmp(<Cards giftcardsDB={giftcardsDB} setGiftcardsDB={setGiftcardsDB} lang={lang} />)
+        break;
+
+      case 'Expenses':
+        setCurrCmp(<Expenses />)
+        break;
+
+      default:
+        break;
+    }
+  }, [page, lang, giftcardsDB]);
+
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+        <Header setPage={setPage} lang={lang} setLang={setLang} />
       </header>
+      {currCmp}
     </div>
   );
 }
