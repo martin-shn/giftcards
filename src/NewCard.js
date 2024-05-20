@@ -1,7 +1,8 @@
-import { Button, Box, FormControl, ImageList, ImageListItem, Input, InputLabel, InputAdornment, Popper } from "@mui/material";
+import { Button, Box, FormControl, ImageList, ImageListItem, Input, InputLabel, InputAdornment, Popper, Fab } from "@mui/material";
 import JsBarcode from "jsbarcode";
 import { MuiColorInput } from "mui-color-input";
 import { useEffect, useState } from "react";
+import CloseIcon from '@mui/icons-material/Close';
 
 export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopoverOpen, card }) {
     const [name, setName] = useState('');
@@ -65,58 +66,59 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
     };
 
     return (
-        <>
-            <Box
-                component="form"
-                noValidate
-                autoComplete="off"
-                sx={{ width: '80vw', height: '75vh', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}
-            >
-                <h3 style={{ textAlign: 'center', margin: 0 }}>{strings[lang].new.title}</h3>
-                <FormControl variant="standard" fullWidth>
-                    <InputLabel htmlFor="card-name" sx={{ width: '100%' }}>{strings[lang].new.name}</InputLabel>
-                    <Input id="card-name" onChange={({ target }) => setName(target.value)} value={name} />
-                </FormControl>
-                <FormControl variant="standard" fullWidth>
-                    <InputLabel htmlFor="card-number" sx={{ width: '100%' }}>{strings[lang].new.number}</InputLabel>
-                    <Input id="card-number" type="tel" onChange={({ target }) => { setNumber(target.value) }} value={number} />
-                </FormControl>
-                <svg id='barcode' onClick={handleClick}></svg>
-                <Popper id='barcode-popper' open={open} anchorEl={anchorEl} sx={{ zIndex: 9999 }}>
-                    <Box sx={{ border: 1, p: 1, bgcolor: 'white' }}>
-                        <svg id='big-barcode'></svg>
-                    </Box>
-                </Popper>
-                <FormControl variant="standard" fullWidth>
-                    <InputLabel htmlFor="card-amount" sx={{ width: '100%' }}>{strings[lang].new.amount}</InputLabel>
-                    <Input id="card-amount" type="number" value={amount} onChange={({ target }) => setAmount(target.value)} startAdornment={<InputAdornment position="start">{strings[lang].cards.currency}</InputAdornment>} />
-                </FormControl>
-                <FormControl variant="standard" fullWidth>
-                    <InputLabel htmlFor="card-brand" sx={{ width: '100%' }}>{strings[lang].new.brand}</InputLabel>
-                    <Input id="card-brand" type="text" value={brand.title} onChange={({ target }) => setBrand({ img: '', title: target.value })} endAdornment={<InputAdornment position="end"><MuiColorInput label={strings[lang].new.bgc} format="hex" value={bgc} onChange={setBgc} /></InputAdornment>} />
-                </FormControl>
-                <ImageList cols={mobileCheck() ? 2 : 3} sx={{ paddingBlock: '20px' }}>
-                    {itemData.map((item) => (
-                        <ImageListItem key={item.img} sx={{ border: brand.img === item.img ? '2px solid black' : 0 }}>
-                            <img
-                                srcSet={`${item.img}`}
-                                src={`${item.img}`}
-                                alt={item.title}
-                                loading="lazy"
-                                onClick={() => { setBrand(item) }}
-                            />
-                        </ImageListItem>
-                    ))}
-                    <ImageListItem sx={{ border: brand.img === '' ? '2px solid black' : 0, aspectRatio: 1 }} onClick={() => { setBrand({ img: '', title: strings[lang].new.else }); document.querySelector('#card-brand').focus(); }}>
-                        <label style={{ display: 'grid', placeContent: 'center', width: '100%', height: '100%', background: '#3b8ad9', textAlign: 'center' }}>{strings[lang].new.else}</label>
+        <Box
+            component="form"
+            noValidate
+            autoComplete="off"
+            sx={{ width: '80vw', height: '75vh', padding: '20px', display: 'flex', flexDirection: 'column', gap: '20px' }}
+        >
+            <Fab size="small" color="primary" aria-label="close" sx={{ position: 'absolute', top: 5, right: 5 }} onClick={() => setIsPopoverOpen.off()}>
+                <CloseIcon />
+            </Fab>
+            <h3 style={{ textAlign: 'center', margin: 0 }}>{strings[lang].new.title}</h3>
+            <FormControl variant="standard" fullWidth>
+                <InputLabel htmlFor="card-name" sx={{ width: '100%' }}>{strings[lang].new.name}</InputLabel>
+                <Input id="card-name" onChange={({ target }) => setName(target.value)} value={name} />
+            </FormControl>
+            <FormControl variant="standard" fullWidth>
+                <InputLabel htmlFor="card-number" sx={{ width: '100%' }}>{strings[lang].new.number}</InputLabel>
+                <Input id="card-number" type="tel" onChange={({ target }) => { setNumber(target.value) }} value={number} />
+            </FormControl>
+            <svg id='barcode' onClick={handleClick}></svg>
+            <Popper id='barcode-popper' open={open} anchorEl={anchorEl} sx={{ zIndex: 9999 }}>
+                <Box sx={{ border: 1, p: 1, bgcolor: 'white' }}>
+                    <svg id='big-barcode'></svg>
+                </Box>
+            </Popper>
+            <FormControl variant="standard" fullWidth>
+                <InputLabel htmlFor="card-amount" sx={{ width: '100%' }}>{strings[lang].new.amount}</InputLabel>
+                <Input id="card-amount" type="number" value={amount} onChange={({ target }) => setAmount(target.value)} startAdornment={<InputAdornment position="start">{strings[lang].cards.currency}</InputAdornment>} />
+            </FormControl>
+            <FormControl variant="standard" fullWidth>
+                <InputLabel htmlFor="card-brand" sx={{ width: '100%' }}>{strings[lang].new.brand}</InputLabel>
+                <Input id="card-brand" type="text" value={brand.title} onChange={({ target }) => setBrand({ img: '', title: target.value })} endAdornment={<InputAdornment position="end"><MuiColorInput label={strings[lang].new.bgc} format="hex" value={bgc} onChange={setBgc} /></InputAdornment>} />
+            </FormControl>
+            <ImageList cols={mobileCheck() ? 2 : 3} sx={{ paddingBlock: '20px' }}>
+                {itemData.map((item) => (
+                    <ImageListItem key={item.img} sx={{ border: brand.img === item.img ? '2px solid black' : 0 }}>
+                        <img
+                            srcSet={`${item.img}`}
+                            src={`${item.img}`}
+                            alt={item.title}
+                            loading="lazy"
+                            onClick={() => { setBrand(item) }}
+                        />
                     </ImageListItem>
-                </ImageList>
-                <div style={{ width: '100%', display: 'flex' }}>
-                    <Button variant='contained' onClick={createCard} sx={{ margin: 'auto' }}>{isView ? strings[lang].new.duplicate : strings[lang].new.save}</Button>
-                    {isView && <Button variant='contained' onClick={saveCard} sx={{ margin: 'auto' }}>{strings[lang].new.save}</Button>}
-                </div>
-            </Box>
-        </>
+                ))}
+                <ImageListItem sx={{ border: brand.img === '' ? '2px solid black' : 0, aspectRatio: 1 }} onClick={() => { setBrand({ img: '', title: strings[lang].new.else }); document.querySelector('#card-brand').focus(); }}>
+                    <label style={{ display: 'grid', placeContent: 'center', width: '100%', height: '100%', background: '#3b8ad9', textAlign: 'center' }}>{strings[lang].new.else}</label>
+                </ImageListItem>
+            </ImageList>
+            <div style={{ width: '100%', display: 'flex' }}>
+                <Button variant='contained' onClick={createCard} sx={{ margin: 'auto' }}>{isView ? strings[lang].new.duplicate : strings[lang].new.save}</Button>
+                {isView && <Button variant='contained' onClick={saveCard} sx={{ margin: 'auto' }}>{strings[lang].new.save}</Button>}
+            </div>
+        </Box>
     )
 }
 

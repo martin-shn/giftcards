@@ -89,6 +89,7 @@ function Cards({ giftcardsDB, setGiftcardsDB, lang }) {
         const newDB = [...giftcardsDB];
         newDB.splice(idx, 1);
         setGiftcardsDB(newDB);
+        localStorage.setItem('giftcardsDB', JSON.stringify(newDB));
     }
 
     useEffect(() => {
@@ -119,9 +120,9 @@ function Cards({ giftcardsDB, setGiftcardsDB, lang }) {
             >
                 {menuCmp}
             </Popover>
-            <Paper elevation={0} sx={{ display: 'flex', gap: '10px', justifyContent: 'space-around', flexWrap: 'wrap' }}>
+            <Paper elevation={0} sx={{ display: 'flex', gap: '10px', justifyContent: 'space-around', flexWrap: 'wrap', mt:'10px' }}>
                 {giftcardsDB.length ? giftcardsDB.map(gc => (
-                    <Card key={gc.number} elevation={5} sx={{ width: '30%', display: 'flex', flexDirection: 'column', position: 'relative', background: gc.bgc }} onClick={(ev) => handleMenuClick(ev, 'viewCard', gc)} >
+                    <Card key={gc.number} elevation={5} sx={{ width: { xs: '100%', sm: '30%' }, display: 'flex', flexDirection: 'column', position: 'relative', background: gc.bgc }} onClick={(ev) => handleMenuClick(ev, 'viewCard', gc)} >
                         <CardHeader
                             action={
                                 <IconButton aria-label="settings" onClick={(ev) => handleDelete(ev, gc)}>
@@ -137,7 +138,7 @@ function Cards({ giftcardsDB, setGiftcardsDB, lang }) {
                             image={gc.brand.img}
                             alt={gc.brand.title}
                             sx={{ objectFit: 'contain', height: 200 }}
-                        /> : <div style={{height: '100%', display: 'grid', placeContent: 'center', fontWeight: 900}}>{gc.brand.title}</div>}
+                        /> : <div style={{ height: '100%', display: 'grid', placeContent: 'center', fontWeight: 900 }}>{gc.brand.title}</div>}
                         <CardContent sx={{ height: '100%', alignContent: 'flex-end' }}>
                             {/* <Typography variant="h5" color="text.secondary" sx={{ position: 'absolute', bottom: '50%', left: '50%', background: 'black', color: 'white', borderRadius: '50px', padding: '20px', translate: '-50% -50%' }}>
                                 {gc.amount} {strings[lang].cards.currency}
