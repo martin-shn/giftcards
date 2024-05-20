@@ -59,6 +59,9 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
 
     const handleClick = (event) => {
         setAnchorEl(anchorEl ? null : event.currentTarget);
+        !open && setTimeout(() => {
+            JsBarcode('#big-barcode', number.replace(/[^\d]/g, '') || 0);
+        }, 1000);
     };
 
     return (
@@ -79,9 +82,9 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
                     <Input id="card-number" type="tel" onChange={({ target }) => { setNumber(target.value) }} value={number} />
                 </FormControl>
                 <svg id='barcode' onClick={handleClick}></svg>
-                <Popper id='barcode-popper' open={open} anchorEl={anchorEl}>
-                    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
-                        The content of the Popper.
+                <Popper id='barcode-popper' open={open} anchorEl={anchorEl} sx={{ zIndex: 9999 }}>
+                    <Box sx={{ border: 1, p: 1, bgcolor: 'white' }}>
+                        <svg id='big-barcode'></svg>
                     </Box>
                 </Popper>
                 <FormControl variant="standard" fullWidth>
