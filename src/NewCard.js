@@ -41,7 +41,7 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
 
         const idx = newDB.findIndex(gc => gc.id === card.id);
         newDB[idx] = {
-            id: Math.random().toString(16).slice(2), name, number, brand, amount, expenses: []
+            id: Math.random().toString(16).slice(2), name, number, brand, amount, expenses: [], bgc
         };
         localStorage.setItem('giftcardsDB', JSON.stringify(newDB));
         setGiftcardsDB(newDB);
