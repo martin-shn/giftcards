@@ -30,7 +30,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Header setPage={setPage} lang={lang} setLang={setLang} />
+        <Header setPage={setPage} lang={lang} setLang={setLang} setGiftcardsDB={setGiftcardsDB} />
       </header>
       {currCmp}
     </div>

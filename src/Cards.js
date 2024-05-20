@@ -57,14 +57,9 @@ const strings = {
 function Cards({ giftcardsDB, setGiftcardsDB, lang }) {
     console.log({ giftcardsDB });
 
-    const [expanded, setExpanded] = useState(false);
     const [isPopoverOpen, setIsPopoverOpen] = useBoolean(false);
     const [anchorEl, setAnchorEl] = useState(null);
     const [menuCmp, setMenuCmp] = useState(<></>);
-
-    const handleExpandClick = () => {
-        setExpanded(!expanded);
-    };
 
     const handleMenuClick = (ev, command, ...rest) => {
         setAnchorEl(ev.currentTarget);
