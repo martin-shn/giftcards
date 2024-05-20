@@ -6,7 +6,7 @@ import Expenses from './Expenses';
 
 function App() {
   const [page, setPage] = useState('Cards');
-  const [lang, setLang] = useState('he');
+  const [lang, setLang] = useState('en');
   const [giftcardsDB, setGiftcardsDB] = useState(JSON.parse(localStorage.getItem('giftcardsDB') || '[]'));
   const [currCmp, setCurrCmp] = useState(<></>);
 

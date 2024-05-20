@@ -1,14 +1,18 @@
-import { Button, Box, FormControl, ImageList, ImageListItem, Input, InputLabel, InputAdornment } from "@mui/material";
+import { Button, Box, FormControl, ImageList, ImageListItem, Input, InputLabel, InputAdornment, Popper } from "@mui/material";
 import JsBarcode from "jsbarcode";
+import { MuiColorInput } from "mui-color-input";
 import { useEffect, useState } from "react";
 
 export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopoverOpen, card }) {
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     const [brand, setBrand] = useState(itemData[0]);
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState();
+    const [bgc, setBgc] = useState('#8aa7ff');
+    const [anchorEl, setAnchorEl] = useState(null);
 
     const isView = Boolean(card);
+    const open = Boolean(anchorEl);
 
     useEffect(() => {
         if (!card) return;
@@ -46,12 +50,16 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
     const createCard = () => {
         if (!name || !number) return;
         const newDB = [...giftcardsDB, {
-            id: Math.random().toString(16).slice(2), name, number, brand, amount, expenses: []
+            id: Math.random().toString(16).slice(2), name, number, brand, amount: amount || 0, expenses: [], bgc
         }];
         localStorage.setItem('giftcardsDB', JSON.stringify(newDB));
         setGiftcardsDB(newDB);
         setIsPopoverOpen.off();
     }
+
+    const handleClick = (event) => {
+        setAnchorEl(anchorEl ? null : event.currentTarget);
+    };
 
     return (
         <>
@@ -70,14 +78,19 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
                     <InputLabel htmlFor="card-number" sx={{ width: '100%' }}>{strings[lang].new.number}</InputLabel>
                     <Input id="card-number" type="tel" onChange={({ target }) => { setNumber(target.value) }} value={number} />
                 </FormControl>
-                <svg id='barcode'></svg>
+                <svg id='barcode' onClick={handleClick}></svg>
+                <Popper id='barcode-popper' open={open} anchorEl={anchorEl}>
+                    <Box sx={{ border: 1, p: 1, bgcolor: 'background.paper' }}>
+                        The content of the Popper.
+                    </Box>
+                </Popper>
                 <FormControl variant="standard" fullWidth>
                     <InputLabel htmlFor="card-amount" sx={{ width: '100%' }}>{strings[lang].new.amount}</InputLabel>
                     <Input id="card-amount" type="number" value={amount} onChange={({ target }) => setAmount(target.value)} startAdornment={<InputAdornment position="start">{strings[lang].cards.currency}</InputAdornment>} />
                 </FormControl>
                 <FormControl variant="standard" fullWidth>
                     <InputLabel htmlFor="card-brand" sx={{ width: '100%' }}>{strings[lang].new.brand}</InputLabel>
-                    <Input id="card-brand" type="tel" value={brand.title} onChange={({ target }) => setBrand({ img: '', title: target.value })} />
+                    <Input id="card-brand" type="text" value={brand.title} onChange={({ target }) => setBrand({ img: '', title: target.value })} endAdornment={<InputAdornment position="end"><MuiColorInput label={strings[lang].new.bgc} format="hex" value={bgc} onChange={setBgc} /></InputAdornment>} />
                 </FormControl>
                 <ImageList cols={mobileCheck() ? 2 : 3} sx={{ paddingBlock: '20px' }}>
                     {itemData.map((item) => (
@@ -91,7 +104,7 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
                             />
                         </ImageListItem>
                     ))}
-                    <ImageListItem sx={{ border: brand.img === '' ? '2px solid black' : 0 }} onClick={() => { setBrand({ img: '', title: strings[lang].new.else }); document.querySelector('#card-brand').focus(); }}>
+                    <ImageListItem sx={{ border: brand.img === '' ? '2px solid black' : 0, aspectRatio: 1 }} onClick={() => { setBrand({ img: '', title: strings[lang].new.else }); document.querySelector('#card-brand').focus(); }}>
                         <label style={{ display: 'grid', placeContent: 'center', width: '100%', height: '100%', background: '#3b8ad9', textAlign: 'center' }}>{strings[lang].new.else}</label>
                     </ImageListItem>
                 </ImageList>

@@ -22,6 +22,28 @@ svg#barcode {
   width: 100%;
 }
 
-svg[id^="barcode"]{
+svg[id^="barcode"] {
   width: 100%;
+}
+
+.MuiColorInput-TextField {
+  &>label.MuiFormLabel-colorPrimary {
+    min-width: fit-content;
+  }
+
+  &>div.MuiInputBase-colorPrimary {
+    &>div {
+      position: absolute;
+      left: 50%;
+    }
+
+    &>input {
+      // opacity: 0;
+      color: transparent;
+    }
+
+    &>fieldset {
+      border: 0;
+    }
+  }
 }
