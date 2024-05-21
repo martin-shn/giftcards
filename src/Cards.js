@@ -1,21 +1,10 @@
-import { Box, Button, Card, CardContent, CardHeader, CardMedia, IconButton, Paper, Popover, styled } from "@mui/material";
+import { Box, Button, Card, CardContent, CardHeader, CardMedia, IconButton, Paper, Popover } from "@mui/material";
 import { useEffect, useState } from "react";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import useBoolean from "./hooks/useBoolean";
 import { NewCard } from "./NewCard";
 import JsBarcode from "jsbarcode";
 import DeleteIcon from '@mui/icons-material/Delete';
-
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}));
 
 const errors = { noCards: { en: 'No Cards To Show', he: 'אין כרטיסים להצגה' } };
 const menu = [{ en: 'New Card', he: 'כרטיס חדש', icon: <AddCircleIcon />, command: 'newCard' }];
@@ -67,11 +56,13 @@ function Cards({ giftcardsDB, setGiftcardsDB, lang }) {
         setIsPopoverOpen.on();
         switch (command) {
             case 'newCard':
-                setMenuCmp(<NewCard strings={strings} giftcardsDB={giftcardsDB} setGiftcardsDB={setGiftcardsDB} lang={lang} setIsPopoverOpen={setIsPopoverOpen} />)
+                setMenuCmp(<NewCard strings={strings} setGiftcardsDB={setGiftcardsDB} lang={lang} setIsPopoverOpen={setIsPopoverOpen} />)
                 break;
 
             case 'viewCard':
                 setMenuCmp(<NewCard strings={strings} giftcardsDB={giftcardsDB} setGiftcardsDB={setGiftcardsDB} lang={lang} setIsPopoverOpen={setIsPopoverOpen} card={rest[0]} />)
+                break;
+
             default:
                 break;
         }
@@ -115,7 +106,7 @@ function Cards({ giftcardsDB, setGiftcardsDB, lang }) {
             >
                 {menuCmp}
             </Popover>
-            <Paper elevation={0} sx={{ display: 'flex', gap: '10px', justifyContent: 'space-around', flexWrap: 'wrap', mt:'10px' }}>
+            <Paper elevation={0} sx={{ display: 'flex', gap: '10px', justifyContent: 'space-around', flexWrap: 'wrap', mt: '10px' }}>
                 {giftcardsDB.length ? giftcardsDB.map(gc => (
                     <Card key={gc.number} elevation={5} sx={{ width: { xs: '100%', sm: '30%' }, display: 'flex', flexDirection: 'column', position: 'relative', background: gc.bgc }} onClick={(ev) => handleMenuClick(ev, 'viewCard', gc)} >
                         <CardHeader

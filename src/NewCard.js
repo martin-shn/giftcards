@@ -4,7 +4,7 @@ import { MuiColorInput } from "mui-color-input";
 import { useEffect, useState } from "react";
 import CloseIcon from '@mui/icons-material/Close';
 
-export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopoverOpen, card }) {
+export function NewCard({ strings, lang, setGiftcardsDB, setIsPopoverOpen, card }) {
     const [name, setName] = useState('');
     const [number, setNumber] = useState('');
     const [brand, setBrand] = useState(itemData[0]);
@@ -37,7 +37,7 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
 
     const saveCard = () => {
         if (!name || !number) return;
-        const newDB = [...giftcardsDB];
+        const newDB = JSON.parse(localStorage.getItem('giftcardsDB') || '[]');
 
         const idx = newDB.findIndex(gc => gc.id === card.id);
         newDB[idx] = {
@@ -50,7 +50,7 @@ export function NewCard({ strings, lang, setGiftcardsDB, giftcardsDB, setIsPopov
 
     const createCard = () => {
         if (!name || !number) return;
-        const newDB = [...giftcardsDB, {
+        const newDB = [...(JSON.parse(localStorage.getItem('giftcardsDB') || '[]')), {
             id: Math.random().toString(16).slice(2), name, number, brand, amount: amount || 0, expenses: [], bgc
         }];
         localStorage.setItem('giftcardsDB', JSON.stringify(newDB));

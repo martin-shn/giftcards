@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { ReactComponent as Logo } from './logo.svg';
@@ -173,11 +173,9 @@ function Header({ setPage, lang, setLang, setGiftcardsDB }) {
                         '&:hover': {
                             backgroundColor: 'rgba(255,255,255, 0.25)',
                         },
-                        marginLeft: 0,
-                        width: '100%',
                         height: '2rem',
-                        marginLeft: { sm: '10px' },
-                        width: { sm: 'auto' },
+                        marginLeft: { sm: '10px', xs: 0 },
+                        width: { sm: 'auto', xs: '100%' },
                         display: 'flex'
                     }}>
                         <SearchIconWrapper>
